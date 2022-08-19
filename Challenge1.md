@@ -1,7 +1,6 @@
 # Challenge 1 
 
 ```js
-
 const router = require('express').Router();
 const mongoose = require('mongoose');
 const dataSchema = new mongoose.Schema({
@@ -31,16 +30,32 @@ router.post('/onboarding',async function(req, res, next) {
         const {nickName, changeAfterImprovedSleep, issueSince, bedTime, wakeTime, sleepHours, isPaidUser} = req.body;
         const nickNameInUse = await dataModel.findOne({nickName});
         if(nickNameInUse) {
-            return res.status(400).send({status:false, message: 'Nick name has been taken'});
+            return res
+                .status(400)
+                .send({
+                    status:false, 
+                    message: 'Nick name has been taken'
+                });
         }
         const bedHours = (wakeTime.getTime() - bedTime.getTime()) / 1000;
         bedHours /= (60 * 60);
         bedHours = Math. abs(Math. round(bedHours));
         const sleepEfficiency =   Math.round(sleepHours/bedHours) * 100;
         await dataModel.create({nickName, changeAfterImprovedSleep, issueSince, bedTime, wakeTime, sleepHours, sleepEfficiency, isPaidUser});
-        return res.status(201).send({status: true, message: "Onboarding completed", data : {sleepEfficiency}};
+        return res
+            .status(201)
+            .send({ 
+                status: true, 
+                message: "Onboarding completed", 
+                data : {sleepEfficiency} 
+            };
     } catch(err) {
-        return res.status(500).send({"status": false, "message": err.message});
+        return res
+            .status(500)
+            .send({ 
+                status: false, 
+                message: err.message
+            });
     }
 });
 
