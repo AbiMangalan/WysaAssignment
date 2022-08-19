@@ -1,5 +1,5 @@
-Challenge 2 Code : 
-Leetcode Problem https://leetcode.com/problems/validate-binary-search-tree/
+# Challenge 2 Code : 
+## Leetcode Problem https://leetcode.com/problems/validate-binary-search-tree/
 
 ```js
 var isValidBST = function(root) {
