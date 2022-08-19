@@ -1,4 +1,4 @@
-# Wysa Assignment Challenge 1
+# Challenge 1 
 
 ```js
 
@@ -28,12 +28,11 @@ const dataModel = mongoose.model('onboardingData', dataSchema);
 router.post('/onboarding',async function(req, res, next) {
     try{
         const {nickName, changeAfterImprovedSleep, issueSince, bedTime, wakeTime, sleepHours} = req.body;
-        let errors = [];
         const nickNameInUse = await dataModel.findOne({nickName});
         if(nickNameInUse) {
-            errors.push('Nick name has been taken');
+            return res.status(400).send({status:false, message: 'Nick name has been taken'});
         }
-        const bedHours =(wakeTime.getTime() - sleepHours.getTime()) / 1000;
+        const bedHours = (wakeTime.getTime() - bedTime.getTime()) / 1000;
         bedHours /= (60 * 60);
         bedHours = Math. abs(Math. round(bedHours));
         const sleepEfficiency =   Math.round(sleepHours/bedHours) * 100;
