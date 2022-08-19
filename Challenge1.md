@@ -33,7 +33,12 @@ router.post('/onboarding',async function(req, res, next) {
         if(nickNameInUse) {
             errors.push('Nick name has been taken');
         }
-        const efficiency = () / sleepHours
+        const bedHours =(wakeTime.getTime() - sleepHours.getTime()) / 1000;
+        bedHours /= (60 * 60);
+        bedHours = Math. abs(Math. round(bedHours));
+        const sleepEfficiency =   Math.round(sleepHours/bedHours) * 100;
+        await dataModel.create({nickName, changeAfterImprovedSleep, issueSince, bedTime, wakeTime, sleepHours, sleepEfficiency});
+        return res.status(201).send({status: true, message: "Onboarding completed", data : {sleepEfficiency}};
     } catch(err) {
         return res.status(500).send({"status": false, "message": err.message});
     }
